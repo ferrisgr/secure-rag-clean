@@ -16,3 +16,7 @@ EXPOSE 8501
 
 #Run the Streamlit app on container startup
 CMD ["streamlit", "run", "app.py", "--server.port=8501", "--server.address= 0.0.0.0"]
+
+# Copy Streamlit config
+RUN mkdir -p ~/.streamlit
+COPY .streamlit/config.toml ~/.streamlit/config.toml
