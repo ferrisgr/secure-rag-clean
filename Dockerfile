@@ -11,12 +11,12 @@ COPY . .
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
 
+# Copy Streamlit config to correct location
+RUN mkdir -p /root/.streamlit
+COPY .streamlit/config.toml /root/.streamlit/config.toml
+
 #Expose Streamlit default port
 EXPOSE 8501
 
 #Run the Streamlit app on container startup
-CMD ["streamlit", "run", "app.py", "--server.port=8501", "--server.address= 0.0.0.0"]
-
-# Copy Streamlit config
-RUN mkdir -p ~/.streamlit
-COPY .streamlit/config.toml ~/.streamlit/config.toml
+CMD ["sh", "-c", "streamlit run app.py --server.port=8501 --server.address=0.0.0.0"]

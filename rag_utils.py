@@ -10,12 +10,19 @@ from langchain.llms import OpenAI
 from langchain.chains import RetrievalQA 
 from langchain.prompts import PromptTemplate
 
+openai_key = os.getenv("OPENAI_API_KEY")
+if not openai_key:
+    raise ValueError("OPENAI_API_KEY is not set in the environment variables.")
+
 def load_and_index_docs(folder_path):
     docs = []
     for filename in os.listdir(folder_path):
         if filename.endswith(".pdf"):
             loader = PyMuPDFLoader(os.path.join(folder_path, filename))
             docs.extend(loader.load())
+
+    if not docs:
+        raise ValueError("No PDF documents found in the specified folder.")
 
     splitter = CharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
     chunks = splitter.split_documents(docs)
@@ -24,7 +31,6 @@ def load_and_index_docs(folder_path):
     return vectorstore
 
 def ask_question(vectorstore, query, role):
-    openai_key = os.getenv("OPENAI_API_KEY")
     llm = OpenAI(openai_api_key=openai_key)
 
     if role == "Analyst":
@@ -43,7 +49,7 @@ def ask_question(vectorstore, query, role):
         "You have worked in top tier financial institutions. "
     
     else:
-        tone = "Respond as a professiona assistant."
+        tone = "Respond as a professional assistant."
 
 
    
@@ -63,22 +69,21 @@ def ask_question(vectorstore, query, role):
 
     combine_prompt = PromptTemplate(
         input_variables=["summaries", "question"],
-        template = f"""Given the context below, answer the question at the end. {tone}
-                 If you don't know the answer, say "I don't know". Be concise and avoid assumptions
-                 
-                Summaries:
-                {{summaries}}
-                Question:
-                {{question}}
-                
-                Final Answer:"""
-                )
+        template = f"""
+        {tone}
+        Summaries:
+        {{summaries}}
+        Question:
+        {{question}}
+        
+        Final Answer:"""
+        )
     
     # Define the chain type and its arguments
     chain_type_kwargs = {
          "question_prompt": question_prompt,
          "combine_prompt": combine_prompt
-         }
+    }
 
     qa = RetrievalQA.from_chain_type(
         llm=llm,
