@@ -18,6 +18,9 @@ def display_chat_history():
 
 def clear_chat():
     st.session_state.chat_history = []
+    st.session_state["last_answer"] = ""
+    st.session_state["last_sources"] = []
+    st.session_state["just_submitted"] = False
     st.success("Chat history cleared.")
     st.rerun()
 

@@ -7,8 +7,14 @@ from backend.chat_utils import initialize_chat, add_chat_entry, display_chat_his
 
 
 # Sidebar for role and PDF
-st.set_page_config(page_title="Meghans World", page_icon=":book:", layout="wide")
-st.title("Meghaaans Worldini")
+st.set_page_config(page_title="RAG PDF Query", page_icon=":book:", layout="wide")
+
+from PIL import Image
+
+logo_path = "assets/logo.png"
+logo = Image.open(logo_path)
+st.image(logo, width=200) 
+
 
 
 if "authenticated" not in st.session_state:
@@ -63,8 +69,10 @@ if pdf_name and load_triggered:
     pdf_path = os.path.join(doc_folder, pdf_name)
     with st.spinner("🔄 Indexing selected PDF..."):
         st.session_state.vectorstore = load_and_index_docs(pdf_path)
+        st.success(f"✅ '{pdf_name}' indexed successfully.")
 
 VECTORSTORE = st.session_state.vectorstore
+
 
 
 # Initialize chat
@@ -76,6 +84,8 @@ if st.sidebar.button("🧹 Clear Chat"):
 show_chat = st.sidebar.checkbox("🗨️Show Chat History")
 show_sources = st.sidebar.checkbox("📚 Show Sources", value=True)
 
+if not VECTORSTORE:
+    st.info("📄 Please select and load a PDF before asking a question.")
 
 #main input
 question = st.text_area(
