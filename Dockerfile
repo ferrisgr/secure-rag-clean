@@ -15,7 +15,7 @@ RUN pip install -r requirements.txt
 RUN mkdir -p /root/.streamlit
 COPY .streamlit/config.toml /root/.streamlit/config.toml
 
-#Expose Streamlit default port
+#Expose Streamlit default6 port
 EXPOSE 8501
 
 #Run the Streamlit app on container startup

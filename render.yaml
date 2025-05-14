@@ -1,10 +1,8 @@
 services:
   - type: web
     name: secure-rag-assistant
-    env: python
+    env: docker
     plan: free
-    buildCommand: pip install -r requirements.txt
-    startCommand: streamlit app.py
     envVars:
       - key: OPENAI_API_KEY
         sync: false
