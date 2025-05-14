@@ -117,10 +117,11 @@ if st.session_state.get("just_submitted") is not None:
     sources = st.session_state.get("last_sources", [])
 
     # Display answer
-    st.subheader(f"Answer (Role: {role})")
-    st.markdown(answer)
+    if answer:
+        st.subheader("Answer:")
+        st.markdown(answer)
 
-    if show_sources:
+    if show_sources and sources:
         st.subheader("Sources:")
         for src in sources:
             st.code(src[:500])
