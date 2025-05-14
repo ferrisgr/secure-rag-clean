@@ -7,8 +7,8 @@ from backend.chat_utils import initialize_chat, add_chat_entry, display_chat_his
 
 
 # Sidebar for role and PDF
-st.set_page_config(page_title="RAG PDF Query", page_icon=":book:", layout="wide")
-st.title("RAG PDF Query")
+st.set_page_config(page_title="Meghans World", page_icon=":book:", layout="wide")
+st.title("Meghaaans Worldini")
 
 
 if "authenticated" not in st.session_state:
