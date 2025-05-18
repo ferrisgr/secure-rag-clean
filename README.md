@@ -25,12 +25,5 @@ A lightweight PDF-based RAG assistant that lets users upload PDFs and ask questi
 4. User queries are matched with top chunks
 5. LangChain chain generates a response based on role
 
-## 🛠️ Local Setup
-
-```bash
-git clone https://github.com/ferrisgr/secure-rag-clean
-cd pdf-insight
-pip install -r requirements.txt
-streamlit run app.py
 
 OPENAI_API_KEY=your_key_here
