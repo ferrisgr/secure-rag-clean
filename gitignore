@@ -1,5 +1,0 @@
-.env
-logs.db
-__pychache__/
-*.pyc
-.DS_Store
