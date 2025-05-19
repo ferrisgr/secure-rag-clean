@@ -1,5 +1,7 @@
-import streamlit as st
+from dotenv import load_dotenv
+load_dotenv()
 import os
+import streamlit as st
 from db_rag import init_db, log_query, get_logs
 from backend.rag_utils import load_and_index_docs, ask_question
 from backend.file_utils import ensure_doc_folder, handle_file_upload
@@ -26,7 +28,7 @@ if not st.session_state.authenticated:
     login_button = st.button("Login")
 
     if login_button:
-        if password == "1234":
+        if password == os.getenv("APP_PASSWORD"):
             st.session_state.authenticated = True
             st.rerun()
         else:
